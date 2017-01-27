@@ -23,6 +23,10 @@ const GripMap = React.createClass({
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     objectLink: React.PropTypes.func,
     isInterestingEntry: React.PropTypes.func,
+    attachedNodeFrontsByActor: React.PropTypes.object,
+    onDOMNodeMouseOver: React.PropTypes.func,
+    onDOMNodeMouseOut: React.PropTypes.func,
+    onInspectIconClick: React.PropTypes.func,
   },
 
   getTitle: function (object) {
@@ -92,6 +96,14 @@ const GripMap = React.createClass({
    * @return {Array} Array of PropRep.
    */
   getEntries: function (entries, indexes) {
+    let {
+      objectLink,
+      attachedNodeFrontsByActor,
+      onDOMNodeMouseOver,
+      onDOMNodeMouseOut,
+      onInspectIconClick,
+    } = this.props;
+
     // Make indexes ordered by ascending.
     indexes.sort(function (a, b) {
       return a - b;
@@ -110,7 +122,11 @@ const GripMap = React.createClass({
         // if there won't be a "more..." item.
         delim: (i < indexes.length - 1 || indexes.length < entries.length) ? ", " : "",
         mode: MODE.TINY,
-        objectLink: this.props.objectLink,
+        objectLink,
+        attachedNodeFrontsByActor,
+        onDOMNodeMouseOver,
+        onDOMNodeMouseOut,
+        onInspectIconClick,
       });
     });
   },
